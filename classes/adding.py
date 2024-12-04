@@ -1,5 +1,6 @@
 import sys
 import io
+from datetime import datetime
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
@@ -91,6 +92,7 @@ class Adding(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+        # добавить запоминание даты при создании current_date = datetime.now().date()
 
 
 if __name__ == '__main__':

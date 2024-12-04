@@ -102,6 +102,21 @@ class Hard(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+        self.easy_hard.clicked.connect(self.easy)
+        self.main_hard.clicked.connect(self.middle)
+        self.hard_hard.clicked.connect(self.hard)
+
+    def easy(self):
+        pass
+    # запускать тренировку, передавать уровень сложности 1
+
+    def middle(self):
+        pass
+    # запускать тренировку, передавать уровень сложности 2
+
+    def hard(self):
+        pass
+    # запускать тренировку, передавать уровень сложности 3
 
 
 if __name__ == '__main__':
