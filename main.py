@@ -9,21 +9,46 @@ class Zubrilo(QMainWindow):
     def __init__(self):
         super().__init__()
         self.kat = []
+        self.lang_sp = []
+        self.date_sp = []
+        uic.loadUi('uic/main_window.ui', self)  # Загружаем дизайн
+
         con = sqlite3.connect('slovarik.sqlite')
         cur = con.cursor()
-        sql = '''
-            SELECT DISTINCT spiski.spisok_name FROM katalog
-            LEFT JOIN spiski ON katalog.spisok_id = spiski.id
+        sql1 = '''
+            SELECT katalog.spisok_name, language, date FROM katalog
         '''
-        res = cur.execute(sql).fetchall()
-        con.close()
-        for el in res:
-            self.kat.append(el[0])
+        res1 = cur.execute(sql1).fetchall()
 
-        uic.loadUi('uic/main_window.ui', self)  # Загружаем дизайн
-        self.lang = 'Английский'
-        self.date = 1
+        sql2 = '''
+            SELECT DISTINCT katalog.language FROM katalog
+        '''
+        res2 = cur.execute(sql2).fetchall()
+
+        sql3 = '''
+            SELECT DISTINCT date FROM katalog
+        '''
+        res3 = cur.execute(sql3).fetchall()
+        con.close()
+
+        for el in res1:
+            self.kat.append(f'{el[0]} \t {el[1]} \t {el[2]}')
+        self.kat.sort()
+
+        for el in res2:
+            self.lang_sp.append(el[0])
+
+        for el in res3:
+            self.date_sp.append(el[0])
+
+        self.setWindowTitle('Zubrilo')
+        self.lang = ''
+        self.date = 0
+
         self.katalog.addItems([ev for ev in self.kat])
+        self.lang_filter.addItems([la for la in self.lang_sp])
+        self.date_filter.addItems([da for da in self.date_sp])
+
         self.info.clicked.connect(self.i)
         self.pushButton.clicked.connect(self.tr)
         self.pushButton_2.clicked.connect(self.ed)
@@ -36,14 +61,39 @@ class Zubrilo(QMainWindow):
     def f_lang(self, l):
         self.lang = l
 
-    def filter(self):
-        pass
-
     def f_date(self, d):
-        if d == 'Новые':
-            self.date = 1
-        elif d == 'Старые':
-            self.date = -1
+        self.date = d
+
+    def filter(self):
+        if self.lang != '':
+            con = sqlite3.connect('slovarik.sqlite')
+            cur = con.cursor()
+            sql1 = f'''
+                        SELECT katalog.spisok_name, language, date FROM katalog
+                        WHERE language LIKE {self.lang}
+                    '''
+            res1 = cur.execute(sql1).fetchall()
+            for el in res1:
+                self.kat.append(f'{el[0]} \t {el[1]} \t {el[2]}')
+            con.close()
+            self.katalog.clear()
+            self.katalog.addItems([ev for ev in self.kat])
+        if self.date != 0:
+            con = sqlite3.connect('slovarik.sqlite')
+            cur = con.cursor()
+            sql1 = f'''
+                        SELECT katalog.spisok_name, language, date FROM katalog
+                        WHERE date LIKE {self.date}
+                    '''
+            res1 = cur.execute(sql1).fetchall()
+            for el in res1:
+                self.kat.append(f'{el[0]} \t {el[1]} \t {el[2]}')
+            con.close()
+            self.katalog.clear()
+            self.katalog.addItems([ev for ev in self.kat])
+
+
+
 
     def i(self):
         pass
