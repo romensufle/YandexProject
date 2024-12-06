@@ -68,22 +68,23 @@ class Zubrilo(QMainWindow):
         if self.lang != '':
             con = sqlite3.connect('slovarik.sqlite')
             cur = con.cursor()
-            sql1 = f'''
-                        SELECT katalog.spisok_name, language, date FROM katalog
-                        WHERE language LIKE {self.lang}
+            sql1 = f'''SELECT katalog.spisok_name, language, date FROM katalog
+                        WHERE language LIKE "{self.lang}"
                     '''
             res1 = cur.execute(sql1).fetchall()
+            self.katalog.clear()
+            self.kat = []
             for el in res1:
                 self.kat.append(f'{el[0]} \t {el[1]} \t {el[2]}')
             con.close()
-            self.katalog.clear()
+
             self.katalog.addItems([ev for ev in self.kat])
         if self.date != 0:
             con = sqlite3.connect('slovarik.sqlite')
             cur = con.cursor()
             sql1 = f'''
                         SELECT katalog.spisok_name, language, date FROM katalog
-                        WHERE date LIKE {self.date}
+                        WHERE date LIKE "{self.date}"
                     '''
             res1 = cur.execute(sql1).fetchall()
             for el in res1:
