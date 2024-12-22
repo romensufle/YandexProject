@@ -14,8 +14,8 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>551</height>
+    <width>699</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -104,10 +104,10 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QLabel" name="image_label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>210</y>
-     <width>55</width>
-     <height>16</height>
+     <x>370</x>
+     <y>20</y>
+     <width>300</width>
+     <height>276</height>
     </rect>
    </property>
    <property name="text">
