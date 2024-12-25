@@ -1,10 +1,10 @@
 import sys
 import io
-from datetime import datetime
+import main
+import datetime
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
-
 
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
@@ -87,13 +87,53 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 '''
 
 
-class Adding(QMainWindow):
-    def __init__(self, choosen_item):
+class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТОМ КАТАЛОГ ОБНОВЛЯЛСЯ
+    def __init__(self):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
 
-        # добавить запоминание даты при создании current_date = datetime.now().date()
+        self.date = datetime.date.today()
+        self.flag = 1
+        self.word = ''
+        self.translation = ''
+        self.choosen_item = 'Matrix'  # поменять на входную переменную!!!
+        self.choosen_language = 'English'  # ЗДЕСЬ ТОЖЕ!!!
+        self.add_word.clicked.connect(self.add_wrd)
+
+    def add_wrd(self):
+        if self.word_line.text() and self.translate_line.text():
+            self.word = self.word_line.text()
+            self.translation = self.translate_line.text()
+            con = sqlite3.connect('slovarik.sqlite')
+            cur = con.cursor()
+            sql = f'''
+                SELECT katalog.spisok_name FROM katalog 
+                WHERE spisok_name LIKE "{self.choosen_item}"
+            '''
+            res = cur.execute(sql).fetchall()
+            for el in res:
+                if el[0] == '':
+                    self.flag = 0
+            if self.flag == 0:
+                sql2 = f'''
+                    UPDATE katalog
+                    SET date = "{self.date}"
+                    SET word = "{self.name}"
+                    SET translation = "{self.language}"
+                    WHERE spisok_name LIKE "{self.choosen_item}" AND NOT word
+                '''
+            else:
+                sql2 = f'''
+                    INSERT INTO katalog(word, translation, language, spisok_name, date) 
+                    VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
+                     "{self.date}")
+                '''
+            cur.execute(sql2)
+            con.commit()
+            con.close()
+            self.close()
+            classes.main.Zubrilo()
 
 
 if __name__ == '__main__':

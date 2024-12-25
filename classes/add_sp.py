@@ -1,10 +1,9 @@
 import sys
 import io
-import classes
+from classes import naming
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
-
 
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
@@ -77,6 +76,7 @@ class Add_sp(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+
         self.pushButton.clicked.connect(self.creating)
         self.pushButton_2.clicked.connect(lambda: self.close())
 

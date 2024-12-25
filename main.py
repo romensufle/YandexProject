@@ -1,10 +1,13 @@
 import sys
 import sqlite3
-import classes
+
+import classes.information
+from classes import information, add_sp, adding, delete, hard, naming, training
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
+global choose
 
 class Zubrilo(QMainWindow):
     def __init__(self):
@@ -68,6 +71,7 @@ class Zubrilo(QMainWindow):
                 name += el
             else:
                 self.choosen_item = name
+                choosen_item = self.choosen_item
                 break
 
     def f_lang(self, l):
@@ -115,7 +119,7 @@ class Zubrilo(QMainWindow):
     # здесь класс training
 
     def ad(self):
-        pass
+        classes.add_sp.Add_sp()
     # сюда воткнуть add_sp для создания нового списка
 
     def delete(self):
@@ -123,7 +127,7 @@ class Zubrilo(QMainWindow):
     # здесь класс delete
 
     def ed(self):
-        classes.edit.Edit()
+        classes.adding.Adding()
     # здесь класс edit
 
 

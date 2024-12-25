@@ -109,9 +109,11 @@ class Name(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+
         self.name = ''
         self.language = ''
-        self.add_word.connect.clicked(self.create)
+
+        self.add_word.clicked.connect(self.get_name)
 
     def get_name(self):
         if self.word_line.text() and self.translate_line.text():
@@ -121,18 +123,13 @@ class Name(QMainWindow):
             con = sqlite3.connect('slovarik.sqlite')
             cur = con.cursor()
             sql = f'''
-                INSERT INTO katalog(language, spisok_name) VALUES({self.language}, {self.name})
+                INSERT INTO katalog(language, spisok_name) VALUES("{self.language}", "{self.name}")
             '''
             cur.execute(sql)
             con.commit()
             con.close()
             self.close()
-            classes.adding.Adding()
-
-
-
-
-
+            classes.adding.Adding()  # припрутить передачу choosen_item и choosen_language
 
 
 if __name__ == '__main__':

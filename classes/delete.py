@@ -77,11 +77,23 @@ class Delete(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+
+        self.choosen_item = 'Matrix'  # поменять на входную переменную!!!
+
         self.pushButton.clicked.connect(self.deleting)
         self.pushButton_2.clicked.connect(lambda: self.close())
 
     def deleting(self):
-        pass
+        con = sqlite3.connect('slovarik.sqlite')
+        cur = con.cursor()
+        sql = f'''
+            DELETE FROM katalog 
+            WHERE spisok_name LIKE "{choosen_item}"
+        '''
+        cur.execute(sql)
+        con.commit()
+        con.close()
+        self.close()
 
 
 if __name__ == '__main__':
