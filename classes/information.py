@@ -120,7 +120,7 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 </ui>'''
 
 
-class Adding(QMainWindow):
+class Info(QMainWindow):
     def __init__(self):
         super().__init__()
         f = io.StringIO(template)
@@ -132,6 +132,6 @@ class Adding(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Adding()
+    ex = Info()
     ex.show()
     sys.exit(app.exec())

@@ -1,10 +1,9 @@
 import sys
 import io
-from datetime import datetime
+import classes
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
-
 
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
@@ -14,8 +13,8 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
-    <height>205</height>
+    <width>498</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +23,8 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QLineEdit" name="word_line">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>30</y>
+     <x>170</x>
+     <y>140</y>
      <width>181</width>
      <height>21</height>
     </rect>
@@ -34,34 +33,34 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>30</y>
-     <width>55</width>
+     <x>70</x>
+     <y>140</y>
+     <width>61</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Слово:</string>
+    <string>Название:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>90</y>
+     <x>90</x>
+     <y>200</y>
      <width>55</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Перевод:</string>
+    <string>Язык:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="translate_line">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>90</y>
+     <x>170</x>
+     <y>200</y>
      <width>181</width>
      <height>21</height>
     </rect>
@@ -70,14 +69,32 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
   <widget class="QPushButton" name="add_word">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>150</y>
+     <x>310</x>
+     <y>250</y>
      <width>93</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
     <string>Добавить</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>381</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Придумайте название для нового списка</string>
    </property>
   </widget>
  </widget>
@@ -87,17 +104,39 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 '''
 
 
-class Adding(QMainWindow):
-    def __init__(self, choosen_item):
+class Name(QMainWindow):
+    def __init__(self):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+        self.name = ''
+        self.language = ''
+        self.add_word.connect.clicked(self.create)
 
-        # добавить запоминание даты при создании current_date = datetime.now().date()
+    def get_name(self):
+        if self.word_line.text() and self.translate_line.text():
+            self.name = self.word_line.text()
+            self.language = self.translate_line.text()
+
+            con = sqlite3.connect('slovarik.sqlite')
+            cur = con.cursor()
+            sql = f'''
+                INSERT INTO katalog(language, spisok_name) VALUES({self.language}, {self.name})
+            '''
+            cur.execute(sql)
+            con.commit()
+            con.close()
+            self.close()
+            classes.adding.Adding()
+
+
+
+
+
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Adding()
+    ex = Name()
     ex.show()
     sys.exit(app.exec())

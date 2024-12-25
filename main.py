@@ -17,7 +17,7 @@ class Zubrilo(QMainWindow):
         con = sqlite3.connect('slovarik.sqlite')
         cur = con.cursor()
         sql1 = '''
-            SELECT katalog.spisok_name, language, date FROM katalog
+            SELECT DISTINCT katalog.spisok_name, language, date FROM katalog
         '''
         res1 = cur.execute(sql1).fetchall()
 
@@ -45,6 +45,7 @@ class Zubrilo(QMainWindow):
         self.setWindowTitle('Zubrilo')
         self.lang = ''
         self.date = 0
+        self.choosen_item = ''
 
         self.katalog.addItems([ev for ev in self.kat])
         self.lang_filter.addItems([la for la in self.lang_sp])
@@ -58,6 +59,16 @@ class Zubrilo(QMainWindow):
         self.use_filter.clicked.connect(self.filter)
         self.lang_filter.currentTextChanged.connect(self.f_lang)
         self.date_filter.currentTextChanged.connect(self.f_date)
+        self.katalog.currentTextChanged.connect(self.choose)
+
+    def choose(self, s):
+        name = ''
+        for el in s:
+            if el != '\t':
+                name += el
+            else:
+                self.choosen_item = name
+                break
 
     def f_lang(self, l):
         self.lang = l
@@ -95,15 +106,12 @@ class Zubrilo(QMainWindow):
             self.katalog.clear()
             self.katalog.addItems([ev for ev in self.kat])
 
-
-
-
     def i(self):
-        pass
+        classes.information.Info()
     # сюда воткнуть info
 
     def tr(self):
-        pass
+        classes.training.Training()
     # здесь класс training
 
     def ad(self):
@@ -111,11 +119,11 @@ class Zubrilo(QMainWindow):
     # сюда воткнуть add_sp для создания нового списка
 
     def delete(self):
-        pass
+        classes.delete.Delete()
     # здесь класс delete
 
     def ed(self):
-        pass
+        classes.edit.Edit()
     # здесь класс edit
 
 
