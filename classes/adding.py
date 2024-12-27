@@ -98,7 +98,7 @@ class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТ�
         self.word = ''
         self.translation = ''
         self.choosen_item = 'Matrix'  # поменять на входную переменную!!!
-        self.choosen_language = 'English'  # ЗДЕСЬ ТОЖЕ!!!
+        self.choosen_language = 'Английский'  # ЗДЕСЬ ТОЖЕ!!!
         self.add_word.clicked.connect(self.add_wrd)
 
     def add_wrd(self):
