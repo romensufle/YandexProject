@@ -49,6 +49,7 @@ class Zubrilo(QMainWindow):
         self.lang = ''
         self.date = 0
         self.choosen_item = ''
+        self.choosen_language = ''
 
         self.katalog.addItems([ev for ev in self.kat])
         self.lang_filter.addItems([la for la in self.lang_sp])
@@ -65,14 +66,9 @@ class Zubrilo(QMainWindow):
         self.katalog.currentTextChanged.connect(self.choose)
 
     def choose(self, s):
-        name = ''
-        for el in s:
-            if el != '\t':
-                name += el
-            else:
-                self.choosen_item = name
-                choosen_item = self.choosen_item
-                break
+        self.choosen_item = s.split('\t')[0]
+        self.choosen_language = s.split('\t')[1]
+        print(self.choosen_language, self.choosen_item)
 
     def f_lang(self, l):
         self.lang = l
@@ -115,7 +111,7 @@ class Zubrilo(QMainWindow):
     # сюда воткнуть info
 
     def tr(self):
-        classes.training.Training()
+        classes.training.Training().choosen_item = self.choosen_item
     # здесь класс training
 
     def ad(self):
@@ -123,11 +119,11 @@ class Zubrilo(QMainWindow):
     # сюда воткнуть add_sp для создания нового списка
 
     def delete(self):
-        classes.delete.Delete()
+        classes.delete.Delete().choosen_item = self.choosen_item
     # здесь класс delete
 
     def ed(self):
-        classes.adding.Adding()
+        classes.adding.Adding().choosen_item, choosen_language = self.choosen_item, self.choosen_language
     # здесь класс edit
 
 

@@ -121,13 +121,14 @@ class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТ�
                     SET date = "{self.date}"
                     SET word = "{self.name}"
                     SET translation = "{self.language}"
+                    SET hard = 0
                     WHERE spisok_name LIKE "{self.choosen_item}" AND NOT word
                 '''
             else:
                 sql2 = f'''
-                    INSERT INTO katalog(word, translation, language, spisok_name, date) 
+                    INSERT INTO katalog(word, translation, language, spisok_name, date, hard) 
                     VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
-                     "{self.date}")
+                     "{self.date}", 0)
                 '''
             cur.execute(sql2)
             con.commit()

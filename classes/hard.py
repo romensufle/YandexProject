@@ -1,5 +1,6 @@
 import sys
 import io
+import classes.training
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
@@ -107,15 +108,15 @@ class Hard(QMainWindow):
         self.hard_hard.clicked.connect(self.hard)
 
     def easy(self):
-        pass
+        classes.training.Training().hard_training = '0, 1, 2, 3'
     # запускать тренировку, передавать уровень сложности 1
 
     def middle(self):
-        pass
+        classes.training.Training().hard_training = '0, 1, 2, 3, 4, 5, 6, 7'
     # запускать тренировку, передавать уровень сложности 2
 
     def hard(self):
-        pass
+        classes.training.Training().hard_training = '0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10'
     # запускать тренировку, передавать уровень сложности 3
 
 

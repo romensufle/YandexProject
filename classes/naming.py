@@ -129,7 +129,8 @@ class Name(QMainWindow):
             con.commit()
             con.close()
             self.close()
-            classes.adding.Adding()  # припрутить передачу choosen_item и choosen_language
+            classes.adding.Adding().choosen_item, choosen_language = self.name, self.language
+            # припрутить передачу choosen_item и choosen_language
 
 
 if __name__ == '__main__':

@@ -64,14 +64,27 @@
   <widget class="QPushButton" name="analiz">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>320</y>
+     <x>410</x>
+     <y>310</y>
      <width>111</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>Проверить</string>
+    <string>Начать</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="analiz_2">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>310</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Завершить</string>
    </property>
   </widget>
  </widget>
