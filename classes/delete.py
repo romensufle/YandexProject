@@ -88,7 +88,7 @@ class Delete(QMainWindow):
         cur = con.cursor()
         sql = f'''
             DELETE FROM katalog 
-            WHERE spisok_name LIKE "{choosen_item}"
+            WHERE spisok_name LIKE "{self.choosen_item}"
         '''
         cur.execute(sql)
         con.commit()

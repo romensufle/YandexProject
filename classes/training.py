@@ -107,7 +107,7 @@ class Training(QMainWindow):
         f = io.StringIO(template)
         uic.loadUi(f, self)
 
-        self.choosen_item = 'Matrix'  # поменяяяять
+        self.choosen_item = 'Yandex'  # поменяяяять
         self.hard_training = '10'  # и эт тоже
         self.base = []
         self.click = 0

@@ -2,6 +2,7 @@ import sys
 import io
 import main
 import datetime
+import sqlite3
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
@@ -97,8 +98,8 @@ class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТ�
         self.flag = 1
         self.word = ''
         self.translation = ''
-        self.choosen_item = 'Matrix'  # поменять на входную переменную!!!
-        self.choosen_language = 'Английский'  # ЗДЕСЬ ТОЖЕ!!!
+        self.choosen_item = 'Yandex'  # поменять на входную переменную!!!
+        self.choosen_language = 'Python'  # ЗДЕСЬ ТОЖЕ!!!
         self.add_word.clicked.connect(self.add_wrd)
 
     def add_wrd(self):
@@ -128,13 +129,12 @@ class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТ�
                 sql2 = f'''
                     INSERT INTO katalog(word, translation, language, spisok_name, date, hard) 
                     VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
-                     "{self.date}", 0)
+                     "{self.date}", 10)
                 '''
             cur.execute(sql2)
             con.commit()
             con.close()
             self.close()
-            classes.main.Zubrilo()
 
 
 if __name__ == '__main__':

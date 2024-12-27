@@ -1,6 +1,7 @@
 import sys
 import io
-import classes
+from classes import adding
+import sqlite3
 
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
@@ -129,7 +130,6 @@ class Name(QMainWindow):
             con.commit()
             con.close()
             self.close()
-            classes.adding.Adding().choosen_item, choosen_language = self.name, self.language
             # припрутить передачу choosen_item и choosen_language
 
 
