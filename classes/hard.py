@@ -5,7 +5,6 @@ import classes.training
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
@@ -97,7 +96,6 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 </ui>
 '''
 
-
 class Hard(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -106,18 +104,21 @@ class Hard(QMainWindow):
         self.easy_hard.clicked.connect(self.easy)
         self.main_hard.clicked.connect(self.middle)
         self.hard_hard.clicked.connect(self.hard)
+        self.wrdhrd = ''
 
     def easy(self):
-        classes.training.Training().hard_training = '0, 1, 2, 3'
-    # запускать тренировку, передавать уровень сложности 1
+        self.wrdhrd = '3'
+
+    # запускать тренировку, передавать уровень сложности 3 и меньше
 
     def middle(self):
-        classes.training.Training().hard_training = '0, 1, 2, 3, 4, 5, 6, 7'
-    # запускать тренировку, передавать уровень сложности 2
+        self.wrdhrd = '7'
+
+    # запускать тренировку, передавать уровень сложности 7 и меньше
 
     def hard(self):
-        classes.training.Training().hard_training = '0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10'
-    # запускать тренировку, передавать уровень сложности 3
+        self.wrdhrd = '10'
+    # запускать тренировку, передавать уровень сложности 10 и меньше
 
 
 if __name__ == '__main__':

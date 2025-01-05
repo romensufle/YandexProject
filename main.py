@@ -7,17 +7,18 @@ from classes import information, add_sp, adding, delete, hard, naming, training
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-global choose
 
 class Zubrilo(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.choosen_item = 'Yandex'
+        self.choosen_language = ''
         self.kat = []
         self.lang_sp = []
         self.date_sp = []
         uic.loadUi('uic/main_window.ui', self)  # Загружаем дизайн
 
-        con = sqlite3.connect('slovarik.sqlite')
+        con = sqlite3.connect('classes/slovarik.sqlite')
         cur = con.cursor()
         sql1 = '''
             SELECT DISTINCT katalog.spisok_name, language, date FROM katalog
@@ -48,8 +49,7 @@ class Zubrilo(QMainWindow):
         self.setWindowTitle('Zubrilo')
         self.lang = ''
         self.date = 0
-        self.choosen_item = ''
-        self.choosen_language = ''
+
 
         self.katalog.addItems([ev for ev in self.kat])
         self.lang_filter.addItems([la for la in self.lang_sp])
@@ -68,7 +68,8 @@ class Zubrilo(QMainWindow):
     def choose(self, s):
         self.choosen_item = s.split('\t')[0]
         self.choosen_language = s.split('\t')[1]
-        print(self.choosen_language, self.choosen_item)
+        sp_choo = self.choosen_item
+        sp_lang = self.choosen_language
 
     def f_lang(self, l):
         self.lang = l
@@ -108,22 +109,26 @@ class Zubrilo(QMainWindow):
 
     def i(self):
         classes.information.Info()
+
     # сюда воткнуть info
 
     def tr(self):
-        classes.training.Training().choosen_item = self.choosen_item
+        classes.training.Training()
+
     # здесь класс training
 
     def ad(self):
         classes.add_sp.Add_sp()
+
     # сюда воткнуть add_sp для создания нового списка
 
     def delete(self):
         classes.delete.Delete().choosen_item = self.choosen_item
+
     # здесь класс delete
 
     def ed(self):
-        classes.adding.Adding().choosen_item, choosen_language = self.choosen_item, self.choosen_language
+        classes.adding.Adding()
     # здесь класс edit
 
 

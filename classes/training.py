@@ -2,6 +2,9 @@ import sys
 import io
 import sqlite3
 
+import main
+from classes import hard
+
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
@@ -108,7 +111,8 @@ class Training(QMainWindow):
         uic.loadUi(f, self)
 
         self.choosen_item = 'Yandex'  # поменяяяять
-        self.hard_training = '10'  # и эт тоже
+        self.hard_training = '10' # и эт тоже
+        print(self.choosen_item, self.hard_training)
         self.base = []
         self.click = 0
         self.end = False
@@ -117,11 +121,18 @@ class Training(QMainWindow):
         con = sqlite3.connect('slovarik.sqlite')
         cur = con.cursor()
 
-        sql = f'''
-            SELECT katalog.word, katalog.translation FROM katalog 
-            WHERE spisok_name LIKE "{self.choosen_item}" AND hard LIKE "{self.hard_training}"
-        '''
-        res = cur.execute(sql).fetchall()
+        res = []
+
+        while self.hard_training > '0':
+            void = []
+            sql = f'''
+                        SELECT katalog.word, katalog.translation FROM katalog 
+                        WHERE spisok_name LIKE "{self.choosen_item}" AND hard LIKE "{self.hard_training}"
+                    '''
+            void = cur.execute(sql).fetchall()
+            if void:
+                res.append(void[0])
+            self.hard_training = str(int(self.hard_training) - 1)
         con.close()
 
         for el in res:
@@ -145,7 +156,7 @@ class Training(QMainWindow):
             self.listWidget.clear()
             self.listWidget.addItems([self.base[self.item][0]])
             if self.translate_line.text() and self.click % 2 != 0:
-                if self.translate_line.text() == self.base[self.item][1]:
+                if self.translate_line.text().capitalize() == self.base[self.item][1].capitalize():
                     con = sqlite3.connect('slovarik.sqlite')
                     cur = con.cursor()
                     sql1 = f'''
@@ -200,7 +211,6 @@ class Training(QMainWindow):
                     self.analiz.setText('Продолжить')
                 self.click += 1
                 self.item += 1
-            print(self.click, self.item)
 
     def stop(self):
         self.close()

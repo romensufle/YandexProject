@@ -1,5 +1,6 @@
 import sys
 import io
+
 import main
 import datetime
 import sqlite3
@@ -129,7 +130,7 @@ class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТ�
                 sql2 = f'''
                     INSERT INTO katalog(word, translation, language, spisok_name, date, hard) 
                     VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
-                     "{self.date}", 10)
+                     "{self.date}", 0)
                 '''
             cur.execute(sql2)
             con.commit()

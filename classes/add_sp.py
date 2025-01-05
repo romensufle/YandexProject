@@ -1,5 +1,7 @@
 import sys
 import io
+
+import classes.naming
 from classes import naming
 
 from PyQt6 import uic  # Импортируем uic

@@ -1,10 +1,11 @@
 import sys
 import io
 
+from classes import instruct
+
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QApplication, QMainWindow
-
 
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
@@ -114,6 +115,19 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="inst">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>250</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Инструкция</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
@@ -128,6 +142,10 @@ class Info(QMainWindow):
         self.image_logo = QImage('logo.jpg')
         self.pixmap = QPixmap.fromImage(self.image_logo)
         self.image_label.setPixmap(self.pixmap)
+        self.inst.clicked.connect(self.instruction)
+
+    def instruction(self):
+        instruct.Instr()
 
 
 if __name__ == '__main__':

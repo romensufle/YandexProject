@@ -5,7 +5,6 @@ import io
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-
 template = '''<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
