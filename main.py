@@ -108,7 +108,8 @@ class Zubrilo(QMainWindow):
             self.katalog.addItems([ev for ev in self.kat])
 
     def i(self):
-        classes.information.Info()
+        self.cl = classes.information.Info()
+        self.cl.show()
 
     # сюда воткнуть info
 
