@@ -139,13 +139,14 @@ class Info(QMainWindow):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
-        self.image_logo = QImage('logo.jpg')
+        self.image_logo = QImage('classes/logo.jpg')
         self.pixmap = QPixmap.fromImage(self.image_logo)
         self.image_label.setPixmap(self.pixmap)
         self.inst.clicked.connect(self.instruction)
 
     def instruction(self):
-        instruct.Instr()
+        self.inst = instruct.Instr()
+        self.inst.show()
 
 
 if __name__ == '__main__':

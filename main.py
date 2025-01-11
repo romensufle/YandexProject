@@ -66,10 +66,11 @@ class Zubrilo(QMainWindow):
         self.katalog.currentTextChanged.connect(self.choose)
 
     def choose(self, s):
-        self.choosen_item = s.split('\t')[0]
-        self.choosen_language = s.split('\t')[1]
-        sp_choo = self.choosen_item
-        sp_lang = self.choosen_language
+        self.choosen_item = s
+        self.choosen_language = s
+        if self.choosen_item and self.choosen_language:
+            self.choosen_item = self.choosen_item.split('\t')[0].strip()
+            self.choosen_language = self.choosen_language.split('\t')[1].strip()
 
     def f_lang(self, l):
         self.lang = l
@@ -79,9 +80,9 @@ class Zubrilo(QMainWindow):
 
     def filter(self):
         if self.lang != '':
-            con = sqlite3.connect('slovarik.sqlite')
+            con = sqlite3.connect('classes/slovarik.sqlite')
             cur = con.cursor()
-            sql1 = f'''SELECT katalog.spisok_name, language, date FROM katalog
+            sql1 = f'''SELECT DISTINCT katalog.spisok_name, language, date FROM katalog
                         WHERE language LIKE "{self.lang}"
                     '''
             res1 = cur.execute(sql1).fetchall()
@@ -93,10 +94,10 @@ class Zubrilo(QMainWindow):
 
             self.katalog.addItems([ev for ev in self.kat])
         if self.date != 0:
-            con = sqlite3.connect('slovarik.sqlite')
+            con = sqlite3.connect('classes/slovarik.sqlite')
             cur = con.cursor()
             sql1 = f'''
-                        SELECT katalog.spisok_name, language, date FROM katalog
+                        SELECT DISTINCT katalog.spisok_name, language, date FROM katalog
                         WHERE date LIKE "{self.date}"
                     '''
             res1 = cur.execute(sql1).fetchall()
@@ -108,28 +109,34 @@ class Zubrilo(QMainWindow):
             self.katalog.addItems([ev for ev in self.kat])
 
     def i(self):
-        self.cl = classes.information.Info()
-        self.cl.show()
+        self.inf = classes.information.Info()
+        self.inf.show()
 
     # сюда воткнуть info
 
     def tr(self):
-        classes.training.Training()
+        self.tr = classes.hard.Hard(self.choosen_item)
+        self.tr.show()
+        self.close()
 
     # здесь класс training
 
     def ad(self):
-        classes.add_sp.Add_sp()
-
+        self.add = classes.add_sp.Add_sp()
+        self.add.show()
+        self.close()
     # сюда воткнуть add_sp для создания нового списка
 
     def delete(self):
-        classes.delete.Delete().choosen_item = self.choosen_item
-
+        self.dele = classes.delete.Delete(self.choosen_item)
+        self.dele.show()
+        self.close()
     # здесь класс delete
 
     def ed(self):
-        classes.adding.Adding()
+        self.ede = classes.adding.Adding(self.choosen_item, self.choosen_language)
+        self.ede.show()
+        self.close()
     # здесь класс edit
 
 

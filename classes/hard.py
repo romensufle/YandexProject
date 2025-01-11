@@ -97,10 +97,11 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 '''
 
 class Hard(QMainWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
+        self.choosen_item = args[0]
         self.easy_hard.clicked.connect(self.easy)
         self.main_hard.clicked.connect(self.middle)
         self.hard_hard.clicked.connect(self.hard)
@@ -108,16 +109,25 @@ class Hard(QMainWindow):
 
     def easy(self):
         self.wrdhrd = '3'
+        self.t = classes.training.Training(self.choosen_item, self.wrdhrd)
+        self.t.show()
+        self.close()
 
     # запускать тренировку, передавать уровень сложности 3 и меньше
 
     def middle(self):
         self.wrdhrd = '7'
+        self.tr = classes.training.Training(self.choosen_item, self.wrdhrd)
+        self.tr.show()
+        self.close()
 
     # запускать тренировку, передавать уровень сложности 7 и меньше
 
     def hard(self):
         self.wrdhrd = '10'
+        self.tr = classes.training.Training(self.choosen_item, self.wrdhrd)
+        self.tr.show()
+        self.close()
     # запускать тренировку, передавать уровень сложности 10 и меньше
 
 

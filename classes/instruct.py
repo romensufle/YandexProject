@@ -45,7 +45,7 @@ class Instr(QMainWindow):
         uic.loadUi(f, self)
         lst = []
         st = ''
-        with open('инструкция.txt', encoding='utf8') as f:
+        with open('classes/инструкция.txt', encoding='utf8') as f:
             for el in f.readlines():
                 lst.append(el.rstrip())
         for el in lst:

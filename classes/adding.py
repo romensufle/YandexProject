@@ -90,52 +90,43 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 
 
 class Adding(QMainWindow):  # НАДО СДЕЛАТЬ ТАК, ЧТОБЫ ПОТОМ КАТАЛОГ ОБНОВЛЯЛСЯ
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
 
         self.date = datetime.date.today()
-        self.flag = 1
+
         self.word = ''
         self.translation = ''
-        self.choosen_item = 'Yandex'  # поменять на входную переменную!!!
-        self.choosen_language = 'Python'  # ЗДЕСЬ ТОЖЕ!!!
+        self.choosen_item = args[0]  # поменять на входную переменную!!!
+        self.choosen_language = args[1]  # ЗДЕСЬ ТОЖЕ!!!
         self.add_word.clicked.connect(self.add_wrd)
 
     def add_wrd(self):
         if self.word_line.text() and self.translate_line.text():
             self.word = self.word_line.text()
             self.translation = self.translate_line.text()
-            con = sqlite3.connect('slovarik.sqlite')
+            con = sqlite3.connect('classes/slovarik.sqlite')
             cur = con.cursor()
             sql = f'''
                 SELECT katalog.spisok_name FROM katalog 
                 WHERE spisok_name LIKE "{self.choosen_item}"
             '''
             res = cur.execute(sql).fetchall()
-            for el in res:
-                if el[0] == '':
-                    self.flag = 0
-            if self.flag == 0:
-                sql2 = f'''
-                    UPDATE katalog
-                    SET date = "{self.date}"
-                    SET word = "{self.name}"
-                    SET translation = "{self.language}"
-                    SET hard = 0
-                    WHERE spisok_name LIKE "{self.choosen_item}" AND NOT word
-                '''
-            else:
-                sql2 = f'''
-                    INSERT INTO katalog(word, translation, language, spisok_name, date, hard) 
-                    VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
-                     "{self.date}", 0)
-                '''
+
+            sql2 = f'''
+                INSERT INTO katalog(word, translation, language, spisok_name, date, hard) 
+                VALUES("{self.word}", "{self.translation}", "{self.choosen_language}", "{self.choosen_item}",
+                 "{self.date}", 1)
+            '''
+
             cur.execute(sql2)
             con.commit()
             con.close()
             self.close()
+            self.m = main.Zubrilo()
+            self.m.show()
 
 
 if __name__ == '__main__':

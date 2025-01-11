@@ -105,20 +105,19 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 
 
 class Training(QMainWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
 
-        self.choosen_item = 'Yandex'  # поменяяяять
-        self.hard_training = '10' # и эт тоже
-        print(self.choosen_item, self.hard_training)
+        self.choosen_item = args[0]  # поменяяяять
+        self.hard_training = args[1]  # и эт тоже
         self.base = []
         self.click = 0
         self.end = False
         self.translate_line.setStyleSheet("font: 16pt MS Shell Dlg 2")
 
-        con = sqlite3.connect('slovarik.sqlite')
+        con = sqlite3.connect('classes/slovarik.sqlite')
         cur = con.cursor()
 
         res = []
@@ -149,6 +148,8 @@ class Training(QMainWindow):
             self.end = True
         elif self.item + 1 > self.lenght and self.end == True:
             self.close()
+            self.m = main.Zubrilo()
+            self.m.show()
         else:
             if self.click % 2 == 0:
                 self.analiz.setText('Проверить')
@@ -157,7 +158,7 @@ class Training(QMainWindow):
             self.listWidget.addItems([self.base[self.item][0]])
             if self.translate_line.text() and self.click % 2 != 0:
                 if self.translate_line.text().capitalize() == self.base[self.item][1].capitalize():
-                    con = sqlite3.connect('slovarik.sqlite')
+                    con = sqlite3.connect('classes/slovarik.sqlite')
                     cur = con.cursor()
                     sql1 = f'''
                         SELECT hard FROM katalog
@@ -169,8 +170,8 @@ class Training(QMainWindow):
                     hrd = 0
                     for el in res:
                         hrd = el[0]
-                    if int(hrd) == 0:
-                        hrd = 1
+                    if int(hrd) == 1:
+                        hrd = 2
 
                     sql2 = f'''
                         UPDATE katalog SET hard = {int(hrd) - 1}
@@ -183,7 +184,7 @@ class Training(QMainWindow):
                     self.translate_line.setText('Правильно!')
                     self.analiz.setText('Продолжить')
                 else:
-                    con = sqlite3.connect('slovarik.sqlite')
+                    con = sqlite3.connect('classes/slovarik.sqlite')
                     cur = con.cursor()
                     sql1 = f'''
                         SELECT hard FROM katalog
@@ -214,6 +215,9 @@ class Training(QMainWindow):
 
     def stop(self):
         self.close()
+        self.m = main.Zubrilo()
+        self.m.show()
+
 
 
 if __name__ == '__main__':

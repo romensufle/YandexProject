@@ -2,6 +2,7 @@ import sys
 import io
 
 import classes.naming
+import main
 from classes import naming
 
 from PyQt6 import uic  # Импортируем uic
@@ -80,10 +81,18 @@ class Add_sp(QMainWindow):
         uic.loadUi(f, self)
 
         self.pushButton.clicked.connect(self.creating)
-        self.pushButton_2.clicked.connect(lambda: self.close())
+        self.pushButton_2.clicked.connect(self.closing)
 
     def creating(self):
-        classes.naming.Name()
+        self.cr = classes.naming.Name()
+        self.cr.show()
+        self.close()
+
+    def closing(self):
+        self.close()
+        self.mai = main.Zubrilo()
+        self.mai.show()
+
 
 
 if __name__ == '__main__':

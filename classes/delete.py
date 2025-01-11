@@ -2,6 +2,8 @@ import sys
 import sqlite3
 import io
 
+import main
+
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
@@ -72,18 +74,18 @@ template = '''<?xml version="1.0" encoding="UTF-8"?>
 
 
 class Delete(QMainWindow):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
         f = io.StringIO(template)
         uic.loadUi(f, self)
 
-        self.choosen_item = 'Matrix'  # поменять на входную переменную!!!
+        self.choosen_item = args[0]  # поменять на входную переменную!!!
 
         self.pushButton.clicked.connect(self.deleting)
-        self.pushButton_2.clicked.connect(lambda: self.close())
+        self.pushButton_2.clicked.connect(self.closing)
 
     def deleting(self):
-        con = sqlite3.connect('slovarik.sqlite')
+        con = sqlite3.connect('classes/slovarik.sqlite')
         cur = con.cursor()
         sql = f'''
             DELETE FROM katalog 
@@ -93,6 +95,14 @@ class Delete(QMainWindow):
         con.commit()
         con.close()
         self.close()
+        self.m = main.Zubrilo()
+        self.m.show()
+
+    def closing(self):
+        self.close()
+        self.m = main.Zubrilo()
+        self.m.show()
+
 
 
 if __name__ == '__main__':

@@ -1,6 +1,8 @@
 import sys
 import io
-from classes import adding
+
+import classes.adding
+import datetime
 import sqlite3
 
 from PyQt6 import uic  # Импортируем uic
@@ -113,6 +115,7 @@ class Name(QMainWindow):
 
         self.name = ''
         self.language = ''
+        self.date = datetime.date.today()
 
         self.add_word.clicked.connect(self.get_name)
 
@@ -121,14 +124,16 @@ class Name(QMainWindow):
             self.name = self.word_line.text()
             self.language = self.translate_line.text()
 
-            con = sqlite3.connect('slovarik.sqlite')
+            con = sqlite3.connect('classes/slovarik.sqlite')
             cur = con.cursor()
             sql = f'''
-                INSERT INTO katalog(language, spisok_name) VALUES("{self.language}", "{self.name}")
+                INSERT INTO katalog(language, spisok_name, date) VALUES("{self.language}", "{self.name}", "{self.date}")
             '''
             cur.execute(sql)
             con.commit()
             con.close()
+            self.ma = classes.adding.Adding(self.name, self.language)
+            self.ma.show()
             self.close()
             # припрутить передачу choosen_item и choosen_language
 
