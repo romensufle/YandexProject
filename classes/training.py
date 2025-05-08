@@ -131,7 +131,6 @@ class Training(QMainWindow):
             void = cur.execute(sql).fetchall()
             if void:
                 for el in void:
-                    print(el)
                     if el[0] != '' and el[1] != 0:
                         res.append(el)
             self.hard_training = str(int(self.hard_training) - 1)
